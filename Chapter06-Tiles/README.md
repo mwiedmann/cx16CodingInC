@@ -1,0 +1,2 @@
+# Tiles
+Most games will use tile mode so we will start by looking at how this works. The CX16 actually has a tileset already loaded when you start the emulator. The characters for displaying text! Yes, the text you see on the screen are just tiles. The default tileset includes all of the PETSCI characters (letters, numbers, symbols, etc.) The editor you start in can translate characters to tiles. In this chapter we will manipulate
