@@ -10,7 +10,7 @@ Why do we have to do this? The reason is because the CX16 uses 16 bit memory add
 To access each byte in 128KB requires a 17 bit address. 1KB is actually 1024 bytes because everything is always a power of 2 in computing. 128KB is then 128*1024 = `131,072`. Grab a calculator and do 2^17 (2 to the power of 17) and you will get `131,072`. With 17 bits we can "point to" any of the 131,072 bytes. To get 17 bits, we will need to use 2 bytes (16 bits) + "borrow" 1 bit from a 3rd byte.
 
 ## VERA VRAM Registers
-VERA has 3 registers for us to use to set the VRAM address. 2 of them are full bytes, and in the 3rd register we only need 1 bit. VERA also has 1 register for us to read/write the value of that VRAM location. Let's look at a few of these registers. The latest version of this is always found in the [VERA Programmer's Reference](https://github.com/X16Community/x16-docs/blob/master/VERA%20Programmer's%20Reference.md), but here is the section you need for this chapter:
+VERA has 3 registers for us to use to set the VRAM address. 2 of them are full bytes, and in the 3rd register we only need 1 bit. VERA also has 1 register for us to read/write the value of that VRAM location (there is actually a 2nd register DATA1 but we will mainly use DATA0). Let's look at a few of these registers. The latest version of this is always found in the [VERA Programmer's Reference](https://github.com/X16Community/x16-docs/blob/master/VERA%20Programmer's%20Reference.md), but here is the section you need for this chapter:
 
 <style>
 table, th, td {
@@ -86,7 +86,7 @@ If you had the Address Increment value set then VERA would automatically increme
 cc65 has `cx16.h` which contains some helpers for using the VERA registers. It also has `peekpoke.h` which has some Macros for reading (peeking) from and writing (poking) to memory locations. We will make use of these eventually, but since this is all about learning we will use raw C pointers for now. This will help you get more comfortable with what is actually going on.
 
 ### C Pointers
-A dreaded topic for sure that has put many programmers into a fetal position rocking back-and-forth on their bathroom floor! You will not fear them here! We will make simple use of them.
+A dreaded topic for sure that has put many programmers into a fetal position rocking back-and-forth on their bathroom floor! You will not fear them here! We will make simple use of them. cc65 provides some help here but we will use some pointers first to make sure you understand what exactly is going on.
 
 A pointer is a variable that "points" to a memory address. You can do 2 things with them:
 

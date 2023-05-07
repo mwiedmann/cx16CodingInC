@@ -11,7 +11,7 @@ If you aren't familiar with hexidecimal numbers (henceforth referred to as "hex"
 Hex numbers are "base-16" and use the digits 0-9 and letters A-F. They look like `$9F20` in the CX16 documents. The `$` is used in BASIC programs in front hex numbers. In C, hex numbers have a leading `0x` and look like `0x9F20`. In this example, we have a 16 bit number. This is 2 bytes, also called 1 "word". 1 byte = 8 bits. 1 byte in hex only need 2 characters (besides the leading `$` or `0x`) and goes from 00 to FF (0 to 255). Examples in C: `0xFF` = 255, `0xA0` = 160. When you go to 2 bytes, you just add another 2 characters `0x9F20` = 40736.
 
 ### CX16 Binary Basics
-You won't see binary numbers in the CX16 docs very often except when they refer to the bits in the VERA registers (more on that later). You will see `Bit 7 | Bit 6 | Bit 5 | Bit 4	| etc...` which refers to the 8 individual bits in that 1 byte memory location.
+You won't see binary numbers in the CX16 docs very often except when they refer to the bits in the VERA registers (more on that later). You will see `Bit 7 | Bit 6 | Bit 5 | Bit 4 | etc...` which refers to the 8 individual bits in that 1 byte memory location.
 
 >A "register" is just a 1 byte (8 bit) memory location. It may be something special on the actual/physical CX16 hardware, but our code only sees registers as memory locations that have some special meaning.
 
