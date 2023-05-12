@@ -2,7 +2,7 @@
 Most games will use tile mode so we will start by looking at how this works. The CX16 actually has a tileset already loaded in VRAM when you start the emulator. The characters for displaying text! Yes, the characters you see on the screen are just tiles. The default tileset includes all of the PETSCI characters (letters, numbers, symbols, etc.) The editor you start in can translate characters to tile indexes. In this chapter we will start by examining these tiles and how they are displayed on the screen. We will then make some of our own tiles.
 
 ## State of the Emulator When it Starts
-When you start the emulator (and hopefully starting a real CX16 will be the same), it has a default state. Let's go through some of it. Here are the registers we will look at:
+When you start the emulator (and starting a real CX16 _should_ be the same), it has a default state. Let's go through some of it. Here are the registers we will look at:
 
 <style>
 table, th, td {

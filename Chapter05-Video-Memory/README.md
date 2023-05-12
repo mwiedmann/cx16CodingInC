@@ -12,12 +12,6 @@ To access each byte in 128KB requires a 17 bit address. 1KB is actually 1024 byt
 ## VERA VRAM Registers
 VERA has 3 registers for us to use to set the VRAM address. 2 of them are full bytes, and in the 3rd register we only need 1 bit. VERA also has 1 register for us to read/write the value of that VRAM location (there is actually a 2nd register DATA1 but we will mainly use DATA0). Let's look at a few of these registers. The latest version of this is always found in the [VERA Programmer's Reference](https://github.com/X16Community/x16-docs/blob/master/VERA%20Programmer's%20Reference.md), but here is the section you need for this chapter:
 
-<style>
-table, th, td {
-  border: 1px solid;
-}
-</style>
-
 <table>
 	<tbody>
     <tr>
@@ -181,3 +175,10 @@ void main() {
 You can see the definition of the VERA struct and a bunch of other helpers in cx16.h [here on their github](https://github.com/cc65/cc65/blob/master/include/cx16.h). Look for `struct __vera` (which is later defined as `VERA`). The helpers include `vpeek` and `vpoke` for reading/writing VRAM. These are fine for single useage but they are MUCH slower when you are dealing with multiple values because they set the address every time. It is still best to use the data0/address increment method when you can.
 
 I have included `main-cx16.c` that uses the `VERA` struct instead of individual pointers for the registers. You will find that we will still use pointers a lot in our code so don't think you've escaped them just yet!
+
+<!-- Extra styling info for some Markdown engines (e.g. VSCode) -->
+<style>
+table, th, td {
+  border: 1px solid;
+}
+</style>

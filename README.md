@@ -7,12 +7,6 @@ The best first step is to clone the repo, but this is optional. Start with Chapt
 ## VERA Registers
 This is available online but I'm displaying parts of it in the various chapters so this is just here for copy/paste. It will be removed in the end in favor of a link to the latest documentation.
 
-<style>
-table, th, td {
-  border: 1px solid;
-}
-</style>
-
 <table>
 	<tbody>
     <tr>
@@ -271,3 +265,10 @@ table, th, td {
 		<td colspan="1" align="center">Select</td>
 	</tr>
 </tbody></table>
+
+<!-- Extra styling info for some Markdown engines (e.g. VSCode) -->
+<style>
+table, th, td {
+  border: 1px solid;
+}
+</style>
