@@ -5,10 +5,12 @@
 void main() {
     // Here is the address we know Layer 1 MapBase is using
     unsigned long mapBaseAddr = 0x1B000;
-    unsigned char fore, back;
+    unsigned char color = 0;
 
     // Note we need a `short` here because there are more than 255 tiles
     unsigned short i;
+
+    VERA.layer1.config |= 0b1000;
 
     // Point to the MapBase address so we can write to VRAM
     VERA.address = mapBaseAddr;
@@ -17,28 +19,18 @@ void main() {
     // Set the Increment Mode, turn on bit 4
     VERA.address_hi |= 0b10000;
 
-    // Start at colors 1 and 0
-    fore = 1;
-    back = 0;
-
     // Write out @ characters to the entire MapBase
     for (i=0; i<MAPBASE_TILE_COUNT; i++) {
         VERA.data0 = 0; // Index for the @ character
         
         // Color index 0 for background (black)
         // Color index 1 for foreground (white)
-        VERA.data0 = fore | back<<4;
+        VERA.data0 = color;
 
-        fore++;
-        if (fore > 15) {
-            // Skip color 0 for foreground so we get a good
-            // variety of fore/back color combos.
-            fore = 1;
-        }
-
-        back++;
-        if (back > 15) {
-            back = 0;
+        // Don't change the color unless we are on screen (column < 80)
+        // otherwise many of the colors are only off screen
+        if (i % 128 < 80) {
+            color++;
         }
     }
 }

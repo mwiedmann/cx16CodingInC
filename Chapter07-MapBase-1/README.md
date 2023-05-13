@@ -115,6 +115,30 @@ Change the `VERA.data0 = 0;` to a different index value to see other characters 
 
 Run `main.c` to see the entire screen filled with `@` symbols of different colors.
 
+## T256C - 256 Color Mode for 1 bpp
+By setting bit 3 (T256C) of `0x9F34 L1_CONFIG`, you can enable 256 color mode for 1 bpp Color Depth. This allows you to specify a 256 foreground color only rather than a 16 color foreground and background color. There is no background color in this mode. For all other Color Depth modes, the T256C bit is ignored. Once this is set, the MapBase works the same way except the 2nd byte for each entry is a 0-255 palette index.
+
+<table>
+	<tr>
+		<th>Offset</th>
+		<th>Bit&nbsp;7</th>
+		<th>Bit&nbsp;6</th>
+		<th>Bit&nbsp;5</th>
+		<th>Bit&nbsp;4</th>
+		<th>Bit&nbsp;3</th>
+		<th>Bit&nbsp;2</th>
+		<th>Bit&nbsp;1</th>
+		<th>Bit&nbsp;0</th>
+	</tr>
+	<tr>
+		<td>0</td>
+		<td align="center" colspan="8">Character index</td>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td align="center" colspan="8">Foreground color</td>
+	</tr>
+</table>
 
 <!-- Extra styling info for some Markdown engines (e.g. VSCode) -->
 <style>
@@ -122,3 +146,10 @@ table, th, td {
   border: 1px solid;
 }
 </style>
+
+## 256 Color Example
+There is a 2nd program `main-256.c` you can run to see an example with the T256C bit set. The `makefile` has 2 additional entries for this:
+- run `make 256` to build the `CH7-256.PRG` program
+- then run `make run256` to run that program.
+
+You can also build/run it manually as usual. You should see the screen fill up with 256 color `@` symbols.

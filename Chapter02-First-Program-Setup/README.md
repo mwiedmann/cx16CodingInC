@@ -9,7 +9,7 @@ Compiling our CX16 programs will not be a very complicated process, so you do NO
 ## Tutorial Setup
 I recommend cloning/downloading this repo for easy access to the tutorials in each chapter along side your own work, but this is NOT required.
 
-If you ARE cloning the repo, then I recommend for each chapter that you create a folder called "ChapterXX-Me" (where XX is the chapter number) along side the chapter for you to work in.
+If you ARE cloning the repo, then I recommend for each chapter that you create a folder called "ChapterXX-Me" (where XX is the chapter number) along side the chapter for you to work in. You can also work directly in the various chapters by renaming the existing `main.c` and replacing with your own.
 
 If you are NOT cloning the repo, start by creating a folder to work in. For each chapter, create a "ChapterXX-Me" folder to work in. ALSO, create a folder "x16emu" for the emulator.
 
