@@ -4,12 +4,6 @@ Most games will use tile mode so we will start by looking at how this works. The
 ## State of the Emulator When it Starts
 When you start the emulator (and starting a real CX16 _should_ be the same), it has a default state. Let's go through some of it. Here are the registers we will look at:
 
-<style>
-table, th, td {
-  border: 1px solid;
-}
-</style>
-
 <table>
 <thead>
     <tr>
@@ -190,3 +184,10 @@ Let's have some fun with the tiles. Now that we know the location of the tiles, 
 
 ## Next Steps
 We are going to stay with the 1 bpp tile mode for now and look at the Map Base register. This is the location in VRAM that holds the information about which tile to display at that spot on the screen and what color it is. After that, we will learn about the other Color Depth modes which allow us to have more control over the colors of the individual pixels in each tile.
+
+
+<style>
+table, th, td {
+  border: 1px solid;
+}
+</style>
