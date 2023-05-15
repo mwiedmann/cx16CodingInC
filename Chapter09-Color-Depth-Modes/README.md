@@ -85,8 +85,15 @@ With 4 bpp, we have 16 values per pixel (4 bits = 16 possible values). These val
 
 ![4 bpp Tile](4bpp-tile.jpg)
 
+## Tiles in Mode 3 - 8 bpp
+With 8 bpp, we have full control over the color of every pixel in a tile. 8 bits lets us choose any of the 256 palette colors. The downside is that these tiles eat up more memory than the other modes. 8x8 tiles are 64 bytes each in this mode, but can give you some amazing looking tiles.
+
+Here is an example of an 8 bpp tile that uses 64 different colors:
+
+![8 bpp Tile](8bpp-tile.jpg)
+
 ## MapBase for 2/4/8 bpp
-The MapBase now still has a tile index, but instead of color information, it has some additional bits to control tile flipping and palette adjustments.
+The MapBase for these modes is a bit different than for 1 bpp. You still have a tile index, but you also have settings for palette offset, and vertical/horizontal flip.
 
 <table>
 	<tr>
@@ -112,6 +119,58 @@ The MapBase now still has a tile index, but instead of color information, it has
 		<td align="center" colspan="2">Tile index (9:8)</td>
 	</tr>
 </table>
+
+### Tile Index
+You have 10 bits for the tile index in these modes. This lets you choose from up to 1024 different tiles. Most games won't need that many tiles but it allows you to create some very diverse foregrounds and backgrounds for your games. If your tile index is <= 255 (which is almost always will be), you can just assign the index to Byte 0:
+
+```C
+unsigned char i;
+// Our default MapBase address
+unsigned long mapBaseAddr = 0x1B000;
+
+// Create your tiles here...
+
+// Let's say you have a tile at index 13 you want to use
+unsigned char myTileIndex = 13;
+
+// Let's start at row 0, column 0 (the beginning of MapBase memory)
+VERA.address = mapBaseAddr;
+VERA.address_hi = mapBaseAddr>>16;
+VERA.address_hi |= 0b10000; // Turn on increment mode of 1
+
+// Put that tile in the first 10 columns
+for (i=0; i<10; i++) {
+	VERA.data0 = myTileIndex; // Assign the tile index
+
+	// We don't need the palette offset, flip, and high bits for this tile
+	// Just set them to 0
+	VERA.data0 = 0; 
+}
+```
+
+### Palette Offset
+You have 4 bits (16 possible values) at your disposal to "slide" the colors of a tile down the palette. We learned that your tiles in these modes include color information in the form of palette/color indexes. If you have a value in the "Palette offset", it will increase all of the color indexes in a tile by a multiple of 16. For instance, let's say you are in 4 bpp mode and you have a tile that uses color indexes `1, 3, 4, and 9`. When you use that tile in your MapBase, and set the palette offset to `0b0001 (1)`, it will increase those color indexes by 16 to now be `17, 19, 20, and 25`. If you used a palette offset of `0b0010 (2)`, it would increase them by 32, etc.
+
+### Why?
+What? Why would you want to do this? Imagine you have some background tiles in your game and you are using color indexes that are bright colors for the daytime. When your game enters a nightime cycle you want those background tiles to be darker. You could draw and load a new set of tiles with new colors, OR, with clever use of the palette, you could "shift" the tile colors using the palette offset to an area of the palette with darker colors. Fire and water levels can be done by shifting into palette sections that have more red or blue colors. This gives you huge reuse of your tiles.
+
+There are also some "palette cycling" effects that can be achieve this way as well. You can give your tiles the appearance of animation by cycling through different colors. Water and lava effects are often done this way.
+
+### Vertical and Horizontal Flip
+Let's say you have a tile that is an arrow that points to the top right corner. You then realize that you also need arrows that point to the other 3 corners. You could draw 3 new tiles, OR, just use the V/H-Flip bits to flip the image of the tile around to the correct orientation in each location. 
+
+## Example
+We have 3 example programs that use everything we just learned about the 2/4/8 bpp modes. Each program demostrates the following in a different color depth mode:
+- Create an "arrow" tile using various colors in that mode
+- Place some arrow tiles on the screen
+- Use the V/H-Flip bits to point some of the arrows in different directions
+- Use the Palette Offset to draw some arrows with different palette regions
+
+To build them, run `make 2bpp`, `make 4bpp`, or `make 8bpp`.
+
+To then run them, run `make run2bpp`, `make run4bpp`, or `make run8bpp`.
+
+You an also build/run them manual as usual.
 
 <style>
 table, th, td {

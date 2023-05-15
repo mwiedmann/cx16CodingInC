@@ -1,7 +1,7 @@
 CC=cl65
 
 make:
-	$(CC) -O -o CH9.PRG -t cx16 main.c
+	$(CC) -O -o WAIT.PRG -t cx16 main.c
 
 run:
-	../x16emu/x16emu -prg CH9.PRG -run
+	../x16emu/x16emu -prg WAIT.PRG -run
