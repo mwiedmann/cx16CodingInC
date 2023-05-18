@@ -13,7 +13,7 @@ void main() {
     VERA.layer1.config = 0b00000101;
 
     // Get bytes 16-11 of the new TileBase address
-    // Set bit 0 to 0 (for 640 mode)
+    // Set bit 0 to 1 (for 640 mode)
     VERA.layer1.tilebase = tileBaseAddr>>9 | 0b1;
 
     // Point to the TileBase address so we can write to VRAM
@@ -27,14 +27,22 @@ void main() {
         // Each byte covers 4 pixels
         // so we only need to write out 640/4=160 bytes per row
         for (x=0; x<WIDTH_BYTES_640_2BPP; x++) {
-            // Show 4 columns of colors across the screen
-            VERA.data0 = x < 40
+            // Show 8 columns of colors across the screen
+            VERA.data0 = x < 20
                 ? 0 // Black
-                : x < 80
+                : x < 40
                     ? 0b01010101 // White
-                    : x < 120
+                    : x < 60
                         ? 0b10101010 // Red
-                        : 0b11111111; // Cyan
+                        : x < 80
+                            ? 0b11111111 // Cyan
+                            : x < 100
+                                ? 0b00010001 // Black/White
+                                : x < 120
+                                    ? 0b10111011 // Red/Cyan
+                                    : x < 140
+                                        ? 0b00110011 // Black/Cyan
+                                        : 0b01100110; // White/Red
         }
     }
 }
