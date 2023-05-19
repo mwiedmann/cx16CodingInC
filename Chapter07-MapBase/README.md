@@ -17,7 +17,7 @@ You can't see these extra tiles but they still eat up memory. We don't have to w
 ![Visible Tiles](visible-tiles.jpg)
 
 ## MapBase Address
-With Layer 1 active, we use the `0x9F35 (L1_MAPBASE)` register to specify the VRAM address where our MapBase info will be stored. Much like the TileBase address from the previous chapter, we have a partial VRAM address. Here we have bits 16-9 of a 17 bit VRAM address. Bits 8-0 are defaulted to 0. This means we will align on a 512 byte boundary since the lowest bit we can change is bit 9. Again like the TileBase address, this is not a problem.
+With Layer 1 active, we use the `0x9F35 (L1_MAPBASE)` register to specify the VRAM address where our MapBase info will be stored. Much like the TileBase address from the previous chapter, we have a partial VRAM address. Here we have bits 16-9 of a 17 bit VRAM address. Bits 8-0 are defaulted to 0. This means we will align on a 512 byte boundary (must be a multiple of 512) since the lowest bit we can change is bit 9. Again like the TileBase address, this is not a problem.
 
 <table>
 	<tbody>
@@ -46,6 +46,20 @@ Let's look at an example. When the emulator starts, it has a value of `0b1101100
 - 17 bit addr = 0b`11011000` 000000000
 - Broken up into 3 bytes = 1 10110000 00000000
 - In hex this is `0x1B000`
+
+In your code, it is helpful to store your VRAM addresses in an `unsigned long`. This 4 byte value can hold 17 bits. Then you can just `shift` the bytes into the various registers.
+
+```C
+unsigned long l0MapBaseAddr = 0x1B000;
+
+// This shifts: 1 10110000 00000000
+//     Down to:            11011000
+VERA.layer0.mapbase = l0MapBaseAddr>>9;
+
+// For spliting the address into the address registers
+VERA.address = mapBaseAddr; // This grabs lowest 2 bytes
+VERA.address_hi = mapBaseAddr>>16; // This grabs bit 16
+```
 
 ## MapBase Data
 Now that we know where in VRAM the MapBase address points to, what do we put there? What does MapBase data look like? The answer is, it depends on what Color Depth mode you are in. We are still working with Color Depth 0 (1 bpp) mode right now so let's look at that. We will dive into the other modes later.

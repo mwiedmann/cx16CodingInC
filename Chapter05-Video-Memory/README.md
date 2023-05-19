@@ -165,10 +165,15 @@ People writing cx16 C code must have to make pointers to all of these VERA regis
 #include <cx16.h>
 
 void main() {
+	unsigned long l0MapBaseAddr = 0x1000;
+	
     VERA.address = 0xA077;
     VERA.address_hi = 0x1;
 
     VERA.data0 = 123;
+
+	// VERA has some nested structs as well
+	VERA.layer0.mapbase = l0MapBaseAddr>>9;
 }
 ```
 
