@@ -4,7 +4,7 @@ I hinted earlier that accessing video memory (VRAM) is not a direct operation. I
 1. Using the VERA "Addr" registers, set the VRAM address you want to access.
 2. Read from or write to the VERA DATA0 register. The value is either pulled from or written to the address you set in step 1.
 
-Why do we have to do this? The reason is because the CX16 uses 16 bit memory addresses. This means we can only access 64KB of total memory. We learned that the main memory is 40KB + some special registers + 8KB banked RAM + some other stuff. Where is the 128KB of VRAM? There is no way to map that much extra memory into a 16 bit addressing scheme. Instead, the architects of the CX16 are forced to use some kind of indirection to access all of this additional VRAM. This may seem inconvienient but I think you'll see that it isn't all that bad, and VERA provides an interesting helper in the form of "Address Increment" that makes it much easier to use.
+Why do we have to do this? The reason is because the CX16 uses 16 bit memory addresses. This means we can only access 64KB of total memory. We learned that the main memory is 40KB + some special registers + 8KB banked RAM + some other stuff. Where is the 128KB of VRAM? There is no way to map that much extra memory into a 16 bit addressing scheme. Instead, the architects of the CX16 are forced to use some kind of indirection to access all of this additional VRAM. This may seem inconvenient but I think you'll see that it isn't all that bad, and VERA provides an interesting helper in the form of "Address Increment" that makes it much easier to use.
 
 ## VRAM Addresses
 To access each byte in 128KB requires a 17 bit address. 1KB is actually 1024 bytes because everything is always a power of 2 in computing. 128KB is then 128*1024 = `131,072`. Grab a calculator and do 2^17 (2 to the power of 17) and you will get `131,072`. With 17 bits we can "point to" any of the 131,072 bytes. To get 17 bits, we will need to use 2 bytes (16 bits) + "borrow" 1 bit from a 3rd byte.
@@ -77,7 +77,7 @@ Once that is done you can write a value to the DATA0 register and it will go int
 If you had the Address Increment value set then VERA would automatically increment the address for you and you could continue to read/write through VRAM.
 
 ## How to Read/Write Memory Locations and VERA in C
-cc65 has `cx16.h` which contains some helpers for using the VERA registers. It also has `peekpoke.h` which has some Macros for reading (peeking) from and writing (poking) to memory locations. We will make use of these eventually, but since this is all about learning we will use raw C pointers for now. This will help you get more comfortable with what is actually going on.
+cc65 has `cx16.h` which contains some helpers for using the VERA registers. It also has `peekpoke.h` which has some Macros for reading (peeking) from and writing (poking) to memory locations. We will make use of these eventually, but since this is all about learning we will use raw C pointers here so you know how. This will help you get more comfortable with what is actually going on.
 
 ### C Pointers
 A dreaded topic for sure that has put many programmers into a fetal position rocking back-and-forth on their bathroom floor! You will not fear them here! We will make simple use of them. cc65 provides some help here but we will use some pointers first to make sure you understand what exactly is going on.
@@ -177,7 +177,7 @@ void main() {
 }
 ```
 
-You can see the definition of the VERA struct and a bunch of other helpers in cx16.h [here on their github](https://github.com/cc65/cc65/blob/master/include/cx16.h). Look for `struct __vera` (which is later defined as `VERA`). The helpers include `vpeek` and `vpoke` for reading/writing VRAM. These are fine for single useage but they are MUCH slower when you are dealing with multiple values because they set the address every time. It is still best to use the data0/address increment method when you can.
+You can see the definition of the VERA struct and a bunch of other helpers in cx16.h [here on their github](https://github.com/cc65/cc65/blob/master/include/cx16.h). Look for `struct __vera` (which is later defined as `VERA`). The helpers include `vpeek` and `vpoke` for reading/writing VRAM. These are fine for single usage but they are MUCH slower when you are dealing with multiple values because they set the address every time. It is still best to use the data0/address increment method when you can.
 
 I have included `main-cx16.c` that uses the `VERA` struct instead of individual pointers for the registers. You will find that we will still use pointers a lot in our code so don't think you've escaped them just yet!
 

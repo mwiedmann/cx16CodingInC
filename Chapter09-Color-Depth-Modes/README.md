@@ -152,7 +152,7 @@ for (i=0; i<10; i++) {
 You have 4 bits (16 possible values) at your disposal to "slide" the colors of a tile down the palette. We learned that your tiles in these modes include color information in the form of palette/color indexes. If you have a value in the "Palette offset", it will increase all of the color indexes in a tile by a multiple of 16. For instance, let's say you are in 4 bpp mode and you have a tile that uses color indexes `1, 3, 4, and 9`. When you use that tile in your MapBase, and set the palette offset to `0b0001 (1)`, it will increase those color indexes by 16 to now be `17, 19, 20, and 25`. If you used a palette offset of `0b0010 (2)`, it would increase them by 32, etc.
 
 ### Why?
-What? Why would you want to do this? Imagine you have some background tiles in your game and you are using color indexes that are bright colors for the daytime. When your game enters a nightime cycle you want those background tiles to be darker. You could draw and load a new set of tiles with new colors, OR, with clever use of the palette, you could "shift" the tile colors using the palette offset to an area of the palette with darker colors. Fire and water levels can be done by shifting into palette sections that have more red or blue colors. This gives you huge reuse of your tiles.
+What? Why would you want to do this? Imagine you have some background tiles in your game and you are using color indexes that are bright colors for the daytime. When your game enters a nighttime cycle you want those background tiles to be darker. You could draw and load a new set of tiles with new colors, OR, with clever use of the palette, you could "shift" the tile colors using the palette offset to an area of the palette with darker colors. Fire and water levels can be done by shifting into palette sections that have more red or blue colors. This gives you huge reuse of your tiles.
 
 There are also some "palette cycling" effects that can be achieve this way as well. You can give your tiles the appearance of animation by cycling through different colors. Water and lava effects are often done this way.
 
@@ -160,7 +160,7 @@ There are also some "palette cycling" effects that can be achieve this way as we
 Let's say you have a tile that is an arrow that points to the top right corner. You then realize that you also need arrows that point to the other 3 corners. You could draw 3 new tiles, OR, just use the V/H-Flip bits to flip the image of the tile around to the correct orientation in each location. 
 
 ## Example
-We have 3 example programs that use everything we just learned about the 2/4/8 bpp modes. Each program demostrates the following in a different color depth mode:
+We have 3 example programs that use everything we just learned about the 2/4/8 bpp modes. Each program demonstrates the following in a different color depth mode:
 - Create an "arrow" tile using various colors in that mode
 - Place some arrow tiles on the screen
 - Use the V/H-Flip bits to point some of the arrows in different directions

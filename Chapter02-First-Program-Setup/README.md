@@ -34,11 +34,11 @@ run:
 ```
 `NOTE: the ../ style pathing may need to be adjusted on Windows. You can always change this to be a full path to the x16emu executable.`
 
-Once we have written some code, to build your program, you simply open a terminal in the Chapter 1 directory and run: `make`. It will create your .PRG progam and also leave a few `.o` object files behind.
+Once we have written some code, to build your program, you simply open a terminal in the Chapter 1 directory and run: `make`. It will create your .PRG program and also leave a few `.o` object files behind.
 
 To run your program you can run: `make run`.
 
-If you are NOT using a makefile then you can simply run these commands manually, or as part of a batch/shell script. Just substitue `cl65` for the `$(CC)`:
+If you are NOT using a makefile then you can simply run these commands manually, or as part of a batch/shell script. Just substitute `cl65` for the `$(CC)`:
 ```
 cl65 -O -o CH2.PRG -t cx16 main.c
 ```

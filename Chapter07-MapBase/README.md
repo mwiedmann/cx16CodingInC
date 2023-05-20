@@ -56,7 +56,7 @@ unsigned long l0MapBaseAddr = 0x1B000;
 //     Down to:            11011000
 VERA.layer0.mapbase = l0MapBaseAddr>>9;
 
-// For spliting the address into the address registers
+// For splitting the address into the address registers
 VERA.address = mapBaseAddr; // This grabs lowest 2 bytes
 VERA.address_hi = mapBaseAddr>>16; // This grabs bit 16
 ```

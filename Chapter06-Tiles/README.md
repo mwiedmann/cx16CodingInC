@@ -1,5 +1,5 @@
 # Tiles
-Most games will use tile mode so we will start by looking at how this works. The CX16 actually has a tileset already loaded in VRAM when you start the emulator. The characters for displaying text! Yes, the characters you see on the screen are just tiles. The default tileset includes all of the PETSCI characters (letters, numbers, symbols, etc.) The editor you start in can translate characters to tile indexes. In this chapter we will start by examining these tiles and how they are displayed on the screen. We will then make some of our own tiles.
+Most games will use tile mode so we will start by looking at how this works. The CX16 actually has a tileset already loaded in VRAM when you start the emulator. The characters for displaying text! Yes, the characters you see on the screen are just tiles. The default tileset includes all of the PETSCII characters (letters, numbers, symbols, etc.) The editor you start in can translate characters to tile indexes. In this chapter we will start by examining these tiles and how they are displayed on the screen. We will then make some of our own tiles.
 
 ## State of the Emulator When it Starts
 When you start the emulator (and starting a real CX16 _should_ be the same), it has a default state. Let's go through some of it. Here are the registers we will look at:
@@ -157,7 +157,7 @@ Tile height and width are bits 1-0, 0b00 means 8x8 pixel tiles
 </table>
 
 ## Tile Base Address
-The address of the Tile Base is bits 7-2. This is the address in VRAM that holds the tile images. The default tiles are the PETSCI characters so they are images of letters, numbers, symbols, etc. To make tiles appear on the screen, we give the layer "tile indexes". It then looks in VRAM at the Tile Base address to find the tile at that index to display.
+The address of the Tile Base is bits 7-2. This is the address in VRAM that holds the tile images. The default tiles are the PETSCII characters so they are images of letters, numbers, symbols, etc. To make tiles appear on the screen, we give the layer "tile indexes". It then looks in VRAM at the Tile Base address to find the tile at that index to display.
 
 ### Its only 6 bits?
 Yes. The Tile Base only accepts the highest 6 bits of a 17 bit VRAM address. The other 11 bits are just defaulted to 0. This is fine though. It just means that our tiles need to be loaded into VRAM on the nearest 2048 byte boundary (a multiple of 2048). Bit 12 is the smallest bit we control in this scheme and its value is 2048. If this is a little confusing, make yourself a 17 bit number and set the lower 11 bits to 0. Now only allow yourself to change bits 12 and higher and you'll see how the value changes in chunks no smaller that 2048.
