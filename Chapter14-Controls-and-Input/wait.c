@@ -13,3 +13,11 @@ void wait() {
     }
     while (start == next);
 }
+
+void waitCount(unsigned short count) {
+    unsigned short i;
+
+    for (i=0; i<count; i++) {
+        wait();
+    }
+}
