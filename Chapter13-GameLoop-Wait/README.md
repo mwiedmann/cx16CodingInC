@@ -55,12 +55,12 @@ void wait() {
 As I said earlier, we don't need to call this Kernal Function directly like this because `cc65` has already done this for us. `cc65` is a "Cross Compiler". This means that it provides libraries of functions for you (like time.h) that work across many systems. `cc65` supports a variety of systems that use 6502 processors.
 
 ### Quick Thoughts on cc65
-If you only use the standard libraries that cc65 provides, there is a good chance that your code will run on all or many of the systems that cc65 supports. It also helps on the CX16 because it is a new system and things are still changing. If the location of a Kernal Function changes, the cc65 team can just update their library code and your program never has to change. So while it is good education to learn how the CX16 and its Kernal Functions work, it is beneficial to use cc65 provided libraries when you can. Be aware though that cc65 also does not provide EVERYTHING you need.
+If you only use the standard libraries that cc65 provides, there is a good chance that your code will run on all or many of the systems that cc65 supports. It also helps on the CX16 because it is a new system and things are still changing. If the location of a Kernal Function changes, the cc65 team can just update their library code and your program never has to change. It is good to learn how the CX16 and its Kernal Functions work before using the cc65 provided library though, and be aware that cc65 also does not provide EVERYTHING you need.
 
 ### Argument Against
-There are a few arguments against using the cc65 libraries that are worth considering, but I still strongly suggest you use them:
-- The graphics and sound hardware on these systems are all pretty different, so it is unlikely that your code will really cross-compile and work.
-    - This is true but some programs will cross-compile and the libraries still abstract away a lot of complexity and make your programs easier to read.
+There are a few arguments against using the cc65 libraries that are worth considering:
+- The graphics and sound hardware on these systems are all pretty different, so some games are unlikely to cross-compile and work.
+    - This is true but some programs WILL cross-compile and the libraries still abstract away a lot of complexity and make your programs easier to read.
 - If you switch to a different compiler, the cc65 libraries you are referencing won't work.
     - This is true as well. There are other compilers out there that work for the CX16. If you switch to one of them, you may have to change any code that uses cc65 libraries. Although, you might be able to port those libraries over, and rewriting those parts wouldn't be too difficult.
 - You won't learn how the underlying system works if you lean on cc65 to do it for you.
