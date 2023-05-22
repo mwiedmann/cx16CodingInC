@@ -50,15 +50,9 @@ void decodeJoystickBytes() {
 }
 
 void main() {
-    // You pass params to kernal functions using
-    // memory addresses starting at 2
-    // Create a pointer for the "joystick number" param
-    // at address 2
-    unsigned char *kernalParam0 = (unsigned char *)2;
-
     while (1) {
         // Check joystick 0 (the default)
-        *kernalParam0 = 0;
+        asm("lda #0");
 
         // Call the "joystick_get" Kernal function at 0xFF56
         asm("jsr $FF56");
