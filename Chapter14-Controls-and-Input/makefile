@@ -11,3 +11,9 @@ mouse:
 
 runmouse:
 	../x16emu/x16emu -prg MOUSE.PRG -run
+
+key:
+	$(CC) -O -o KEY.PRG -t cx16 key.c wait.c
+
+runkey:
+	../x16emu/x16emu -prg KEY.PRG -run

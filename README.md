@@ -1,6 +1,9 @@
 # Commander X16 Tutorial and Programming it in C
 The purpose of this repo is to be a tutorial/guide about the Commander X16 and programming it with C. The main part of this is more a general programming guide for the CX16 and how it functions, so even if you aren't going to code in C, you will still find the information here valuable. We will cover how the VERA chip works and how we interact with Video Memory. We will cover graphics modes, layers, tiles and tilemaps, and sprites. We will use banked memory, kernal functions, and C library functions created for the CX16 (some of which have their roots in the C64). Each chapter comes with some C programs to demonstrate the topics just learned.
 
+## cc65 Cross Compiler
+The C code in here uses the [cc65 compiler](https://cc65.github.io) and leverages some of its libraries. If you are using a different compiler, I always show how to build it from scratch before using any cc65 libraries, so you will still find value here and should be able to use a different compiler.
+
 ## Using These Tutorials
 The best first step is to clone the repo so you can work with it locally. Start with Chapter01 to get everything installed. Chapter02 then will help you get things set up, write your first program, and make sure everything is configured and running. After that, you are off and running.
 

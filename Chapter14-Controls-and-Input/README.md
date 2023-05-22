@@ -4,6 +4,8 @@ You wouldn't have much of a game without a way for players to control things. Th
 ## Joystick
 We had a quick peek at the cc65's joystick support in a previous chapter, but let's build it from scratch. There is a Kernal Function `joystick_get $FF56` that we can use to check the state of any connected joysticks. See the [Kernal](https://github.com/X16Community/x16-docs/blob/master/X16%20Reference%20-%2004%20-%20KERNAL.md#function-name-joystick_get) docs for full details.
 
+>NOTE: You don't need an actual joystick. The CX16 emulator has the cursor keys mapped to joystick direction, and z/x/a/s/d/c mapped to joystick buttons.
+
 We pass it the joystick number (starting at 0) that we want to check. It will return 3 bytes worth of info about the yes(0)/no(1) (being pressed) state of all the buttons and pads. The 3rd byte says whether or not the joystick is present at all:
 
 ```
@@ -137,3 +139,23 @@ Look at `mouse.c` for an example of all of this. It does the following:
 - If you hold the mouse button, it will change the pointer to be an image of random colors.
 
 To build/run it, `make mouse` and `make runmouse`
+
+## Keyboard
+You have the standard array of C `conio.h` console functions for getting keyboard input, but if you want a faster, non-blocking, lower level check to see if a key is pressed, you can use the Kernal Function `GETIN $FFE4`. It returns the PETSCII code of the last key pressed. Useful in your games if you need some extra (non-joystick) controls. See `joy.c` for this example. Build/run: `make key`, `make runkey`.
+
+```C
+#include <stdio.h>
+
+unsigned char keycode;
+
+void main() {
+    while(1) {
+        asm("jsr $FFE4");
+        asm("sta %v", keycode);
+
+        if (keycode) {
+            printf("PETSCII Code %u\n", keycode);
+        }
+    }
+}
+```
