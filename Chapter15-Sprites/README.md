@@ -192,6 +192,8 @@ unsigned long spriteGraphicAddress = 0x1000;
 // VRAM address for sprite 1 (this is fixed)
 unsigned long sprite1Address = 0x1FC08;
 
+// A sprite image would be created or loaded at spriteGraphicAddress
+
 // Point to Sprite 1
 VERA.address = sprite1Address;
 VERA.address_hi = sprite1Address>>16;
@@ -209,6 +211,11 @@ VERA.data0 = spriteGraphicAddress>>13;
 ## Example
 Look at `sprite.c` for an example of a 64x64 pixel, 256 color sprite moving around the screen. It creates a 64x64 pixel image for the sprite that uses all 256 colors in a pattern. Change it to anything you like. The sprite will move diagonally until it hits the edge of the screen then wraps back to the other side. `make sprite` and `make runsprite` to build/run it.
 
+## Other Sprite Functionality
+Many sprites in your games will not just be a fixed image, they will animate. They will also collide with other sprites, and need to be created/destroyed on the fly. We will dive into more advanced sprite usage in other chapters.
+
+## cc65 Support for Sprites
+This is one that you have to do on your own. I think because sprites are pretty different between many of the supported systems, and many of them don't have sprites at all, cc65 doesn't have a sprite library (at least I didn't see one). Hopefully you just saw from our code examples that its not too difficult to do. You can wrap a lot of that code up in reusable functions and make your own sprite library!
 
 <!-- Extra styling info for some Markdown engines (e.g. VSCode) -->
 <style>
