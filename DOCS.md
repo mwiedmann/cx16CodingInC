@@ -14,7 +14,7 @@ The emulator downloads include a "docs" folder that should have the latest docum
 ## cc65 Docs and Function References
 The C compiler we will use, cc65, has thorough documentation about the compiler and available libraries and their functions. This includes the all important `cx16.h`:
 - [Compiler info](https://cc65.github.io/doc/cc65.html)
-- [CX16 spec.ific info](https://cc65.github.io/doc/cx16.html)
+- [CX16 specific info](https://cc65.github.io/doc/cx16.html)
 - [Basic Function reference](https://cc65.github.io/doc/funcref.html)
 - [Header Files (Good reference)](https://github.com/cc65/cc65/tree/master/include)
 - [cx16.h - IMPORTANT](https://github.com/cc65/cc65/blob/master/include/cx16.h)
