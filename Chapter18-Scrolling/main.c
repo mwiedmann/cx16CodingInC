@@ -5,9 +5,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define IRQ_HANDLER_STACK_SIZE 64
-unsigned char irqHandlerStack[IRQ_HANDLER_STACK_SIZE];
-
 #define TILE_WIDTH 16
 #define TILE_HEIGHT 16
 
