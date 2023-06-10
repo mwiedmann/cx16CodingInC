@@ -14,23 +14,83 @@ As of when this README was created, the documentation for the [Kernal File Funct
         - 0 - File has the 2 byte header, but skip it
         - 1 - File has the 2 byte header, use it
         - 2 - File does NOT have the 2 byte header
-- `LOAD 0xFFD5` - Load the file. The first param here is important because it allows you to directly load data into VRAM. This is useful for loading tiles and sprites.
+- `LOAD 0xFFD5` - Load the file. The first param here is important because it allows you to directly load data into VRAM. This is useful for loading tiles and sprites. `LOAD` returns you the last address it loaded a byte into. The difference between this address and the address you passed to `LOAD` (the "starting address"), is the number of bytes loaded.
     - First param means:
         - 0, load into system memory.
         - 1, perform a verify.
         - 2, load into VRAM, starting from 0x00000 + the specified starting address.
         - 3, load into VRAM, starting from 0x10000 + the specified starting address.
     - Second param is the 16 bit address to load the file into
+- `SAVE 0xFFD8` - Save bytes from memory to a file. Save ALWAYS adds the 2 byte header. There is no avoiding it. If you really want to avoid this, you can use `BSAVE` instead, but cc65 doesn't have a C function for `BSAVE`. NOTE: If you want to overwrite an existing file you MUST prefix the filename with `@:`. Save takes 2 params:
+    - Starting memory address
+    - Ending memory address
+- `BSAVE 0xFEBA` - Same as `SAVE` but doesn't add the 2 byte header. There is no C function for this.
 
 ## cbm.h
 cc65 provides functions that call these Kernal Functions for us. They have the exact same params but save you from having to deal with `asm` calls. That's why we're using C right ;). You can see the documentation for [cbm.h](https://cc65.github.io/doc/funcref.html#ss2.11) for more details. We will use:
 - `cbm_k_setnam`
 - `cbm_k_setlfs`
 - `cbm_k_load`
+- `cmb_k_save`
 
 No surprise they have the same name as the Kernal Functions they are wrapping.
 
 ## Loading a Tile Example
 I have provided a small file `FLAME.BIN` that is a 16x16 pixel, 256 color tile (although it just uses a few colors). The example code loads the tile into the tileBase in VRAM, then fills the entire screen with the flame tile. It has examples of doing this by calling the Kernal Functions directly with `asm`, and using the `cbm.h` functions. You will see by using `cbm.h` that its only 3 lines of code vs. many more using `asm`, but I wanted you to see both.
 
-`make files` to build, and `make runfiles` to run it.
+`make tile` to build, and `make runtile` to run it.
+
+## Reading Files into C Data Structures
+Non-graphical data from files often needs to be loaded into data structures. You might have something like a high score list that has multiple records with a name and score. In your code you might have a `struct Score` defined for these records. `LOAD` helps you get this data into memory, but then you need to have the proper data structures pointing to this memory to use it. There are a few ways to read something like this into a C data structure.
+
+### Easy Way (Uses a Little More Memory)
+You can create an array of your `structs` with a fixed size that you know is large enough to hold the file. You can then read the data directly into the array. `LOAD` returns you the ending address loaded into so you can calculate the number of bytes loaded. You can use that to calculate how many records were loaded and hence how many "valid" records are in your array. This is what we do in the `score.c` example.
+
+```C
+typedef struct Score {
+    unsigned char name[4];
+    unsigned short score;
+} Score;
+
+// 100 records should be enough (but wastes memory)
+Score scoreData[100];
+
+// Need to track how many records we have
+unsigned char scoreDataRecords;
+
+// ....
+
+unsigned short finalMemAddr, bytesRead;
+
+cbm_k_setnam("high.bin");
+cbm_k_setlfs(0, 8, 0); // File has the 2 byte header but skip it
+
+// load returns the last memory address written to
+finalMemAddr = cbm_k_load(0, (unsigned short)scoreData);
+
+// Calculate the number of bytes read as the difference between
+// the starting and ending addresses
+bytesRead = finalMemAddr - (unsigned short)scoreData;
+
+// Calculate the number of "Score" records we read as:
+// The total bytes read / the sizeof a Score struct "sizeof(Score)" 
+scoreDataRecords = bytesRead / sizeof(Score);
+```
+
+### Harder Way (More Memory Efficient)
+Rather than a fixed size array which may waste memory. You can read the file into a temporary buffer (or even BANKED RAM). Using the ending address returned from `LOAD`, you can get the number of bytes loaded. You can then use `malloc` to allocate exactly how much memory you need. You then copy the bytes from where they were loaded into your newly allocated memory. You can use that struct pointer just like an array, but you've now only used exactly the memory needed. The downside here is if you want to add more records in memory. You then need to allocate more memory. This method works well if you are just loading and using the data.
+
+## Loading and Saving a High Score File Example
+I have included a file `HIGH.BIN` that contains a high score list:
+```
+MRW - 43789
+HRP - 21413
+JLM - 9841
+```
+The binary data in this file is 3 "Score" records. Each record is 6 bytes:
+- 4 byte unsigned char array for the name/initials (includes 0/null terminator)
+- 2 byte unsigned short for the score
+
+`score.c` reads this file into an array of `Score` structs and prints the list. It then adds a new score to the file, reads it in again, and prints the new list. It gives a good example of reading a file into a data structure and writing out a data structure to a file. Remember that this file (and any file created with `SAVE/cbm_k_save`) will have the 2 byte header, so use the proper `SETLFS` param when reading it.
+
+`make score` to build, and `make runscore` to run it. `make newhigh` to reset the HIGH.BIN file back to the original 3 scores (it just makes a copy of HIGH_ORG.BIN which is the original).
