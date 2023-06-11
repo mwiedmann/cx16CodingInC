@@ -9,7 +9,7 @@ The CX16 has support for 128 sprites and they have the following attributes:
 - Vertical and Horizontal Flip bits
 - 4 bit Palette Offset for color changes/cycling
 
-Here are some of the VERA registers we will be dealing with. We will dive into sprite collisions and Interrupts later, so for now we just to do enable `bit 6 in 0x9F29 DC_VIDEO` to enable sprites.
+Here are some of the VERA registers we will be dealing with. We will dive into sprite collisions and Interrupts later, so for now we just enable `bit 6 in 0x9F29 DC_VIDEO` to enable sprites.
 
 <table>
 	<tbody>

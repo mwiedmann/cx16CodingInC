@@ -1,5 +1,5 @@
 # Other Color Depth Modes
-We've been talking about Color Depth mode 0 so far. This is 1 bpp (bit per pixel). This is the default mode when you start the emulator. This uses the minimum amount of video memory because each tile in the TileBase only uses 8 bytes. The down side though, is that you have limited color options. Depending on the `L1_CONFIG - T256C` bit, you an either have a 16 color foreground/background, or a 256 color foreground only. This doesn't let you set colors for individual pixels. The color effects the entire tile. This mode is fine for text based programs, and perhaps some games that have limited requirements for colors on your tiles, but most games are going to want better pixel level color control.
+We've been talking about Color Depth mode 0 so far. This is 1 bpp (bit per pixel). This is the default mode when you start the emulator. This uses the minimum amount of video memory because each tile in the TileBase only uses 8 bytes. The down side though, is that you have limited color options. Depending on the `L1_CONFIG - T256C` bit, you either have a 16 color foreground/background, or a 256 color foreground only. This doesn't let you set colors for individual pixels. The color effects the entire tile. This mode is fine for text based programs, and perhaps some games that have limited requirements for colors on your tiles, but most games are going to want better pixel level color control.
 
 <table>
 <thead>
@@ -121,7 +121,7 @@ The MapBase for these modes is a bit different than for 1 bpp. You still have a 
 </table>
 
 ### Tile Index
-You have 10 bits for the tile index in these modes. This lets you choose from up to 1024 different tiles. Most games won't need that many tiles but it allows you to create some very diverse foregrounds and backgrounds for your games. If your tile index is <= 255 (which is almost always will be), you can just assign the index to Byte 0:
+You have 10 bits for the tile index in these modes. This lets you choose from up to 1024 different tiles. Most games won't need that many tiles but it allows you to create some very diverse foregrounds and backgrounds for your games. If your tile index is <= 255 (which it almost always will be), you can just assign the index to Byte 0:
 
 ```C
 unsigned char i;

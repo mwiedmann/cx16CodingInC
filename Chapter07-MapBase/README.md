@@ -1,5 +1,5 @@
 # MapBase
-We learned in the last chapter about the TileBase section in VRAM and how tile images are constructed. We manipulated some tiles and saw them change on screen. The next question though is how does the CX16 know what tiles to show on the screen? How does it know what colors they are? When we looked at the bytes for the `@` character, there was only ON/OF info for each pixel. No color information, and certainly no information about where on the screen the tile should show. In some of the other Color Depth modes, you can encode color information into the tile images, but 1bpp mode is a little different. In all cases though, this is where the MapBase comes in.
+We learned in the last chapter about the TileBase section in VRAM and how tile images are constructed. We manipulated some tiles and saw them change on screen. The next question though is how does the CX16 know what tiles to show on the screen? How does it know what colors they are? When we looked at the bytes for the `@` character, there was only ON/OFF info for each pixel. No color information, and certainly no information about where on the screen the tile should show. In some of the other Color Depth modes, you can encode color information into the tile images, but 1bpp mode is a little different. In all cases though, this is where the MapBase comes in.
 
 The MapBase is a section of VRAM where we specify:
 - The "index" of what tile to show on that screen location (or off screen as you will see)
@@ -130,7 +130,7 @@ Change the `VERA.data0 = 0;` to a different index value to see other characters 
 Run `main.c` to see the entire screen filled with `@` symbols of different colors.
 
 ## T256C - 256 Color Mode for 1 bpp
-By setting bit 3 (T256C) of `0x9F34 L1_CONFIG`, you can enable 256 color mode for 1 bpp Color Depth. This allows you to specify a 256 foreground color only rather than a 16 color foreground and background color. There is no background color in this mode. For all other Color Depth modes, the T256C bit is ignored. Once this is set, the MapBase works the same way except the 2nd byte for each entry is a 0-255 palette index.
+By setting bit 3 (T256C) of `0x9F34 L1_CONFIG`, you can enable 256 color mode for 1 bpp Color Depth. This allows you to specify a 256 foreground color only, rather than a 16 color foreground and background color. There is no background color in this mode. For all other Color Depth modes, the T256C bit is ignored. Once this is set, the MapBase works the same way except the 2nd byte for each entry is a 0-255 palette index.
 
 <table>
 	<tr>

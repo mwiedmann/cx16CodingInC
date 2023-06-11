@@ -2,7 +2,7 @@
 The CX16 has 2 layers for displaying tiles. When the CX16 starts, only `layer 1` is enabled. All of our examples so far have been using just this one layer. Well, we have an entire second layer to use, `layer 0`. Layer 0 has its own set of registers for programming it, but functions exactly the same way as Layer 1. The only difference is that when it is displayed on the screen, it is behind Layer 1.
 
 ## Transparency
-Since layer 0 is behind layer 1, you might be wondering how you see layer 0. The answer is `transparency`. Color 0 is transparent and will instead show whatever is behind it. You can have individual pixels in a tile be transparent, or have an entire tile be transparent. Game will often start by using a bulk method to set an entire layer to transparent, then go and place the visible tiles.
+Since layer 0 is behind layer 1, you might be wondering how you see layer 0. The answer is `transparency`. Color 0 is transparent and will instead show whatever is behind it. You can have individual pixels in a tile be transparent, or have an entire tile be transparent. Games will often start by using a bulk method to set an entire layer to transparent, then go and place the visible tiles.
 
 ## Enabling Layers
 The `0x09F29 DC_VIDEO` register has bits 5/4 to turn layers on/off. Layer 1 is on when the CX16 starts, but you can use either layer or both. You can even turn them on/off at various points in your game.
@@ -56,7 +56,7 @@ We also need some space for our Tiles. Let's say we have 24 tiles. This would ne
 
 When we write our program and enable both layers, we need these 3 "chunks" of VRAM to not overlap. We also have to be careful of the address "boundaries" discussed in both the MapBase and Tile chapters. MapBase address must be a multiple of 512 bytes, and TileBase addresses must be a multiple of 2,048 bytes. This is due to the partial addresses you put into the registers. Addresses can also always start at 0.
 
-Base on all of this, good addresses in this case could be:
+Based on all of this, good addresses in this case could be:
 - TileBase - 0x0
 - Layer 0 MapBase - 0x1800 (6,144)
 - Layer 1 MapBase - 0x2800 (10,240)

@@ -52,7 +52,7 @@ VERA has 3 registers for us to use to set the VRAM address. 2 of them are full b
 </tbody></table>
 
 ## DATA0
-You can see at 0x9F23 a register called DATA0. This is the register that we use to get/set the value in VRAM at the address we set in the "Addr L/M/H". Writing to this register will put the value into VRAM, and reading from this register will get the value from VRAM.
+You can see at `0x9F23` a register called `DATA0`. This is the register that we use to get/set the value in VRAM at the address we set in the "Addr L/M/H". Writing to this register will put the value into VRAM, and reading from this register will get the value from VRAM.
 
 ## Address Increment and DECR
 We will come back to these but I want to give a quick explanation because you probably see these in `0x9F22` and are wondering what they are. I said that VERA offers some help with this VRAM indirection, well these are part of it. By setting the "Address Increment" mode, VERA will automatically adjust the VRAM address after EVERY read or write. What this means is that you can set the VRAM address once, then repeatedly read/write DATA0 and VERA will change (increment) the address for you. If you wanted to read 100 bytes from VRAM, you set the address increment to 1, set the VRAM address, then just read DATA0 100 times. Its really helpful. We will dive into all its uses later. DECR controls if the address increments or decrements.
@@ -142,7 +142,7 @@ This can be helpful when parsing a larger data type into smaller ones. For insta
     // Shift >> the Lo/Mid bytes out.
     // This leaves the Hi (3rd) byte for us to grab
     // Because addHi is a 1 byte data type, it will just get 1 byte
-    *addrHi = vramAddr>>16;
+    addrHi = vramAddr>>16;
 ```
 
 For setting the actual registers in the example above we will use pointers, but this example illustrates how the data type size impacts how many bytes it copies.
@@ -179,7 +179,7 @@ void main() {
 
 You can see the definition of the VERA struct and a bunch of other helpers in cx16.h [here on their github](https://github.com/cc65/cc65/blob/master/include/cx16.h). Look for `struct __vera` (which is later defined as `VERA`). The helpers include `vpeek` and `vpoke` for reading/writing VRAM. These are fine for single usage but they are MUCH slower when you are dealing with multiple values because they set the address every time. It is still best to use the data0/address increment method when you can.
 
-I have included `main-cx16.c` that uses the `VERA` struct instead of individual pointers for the registers. You will find that we will still use pointers a lot in our code so don't think you've escaped them just yet!
+I have included `main-cx16.c` that uses the `VERA` struct instead of individual pointers for the registers. Most of the examples moving forward will use the VERA struct for accessing the VERA registers, but pointers will still come up as well.
 
 <!-- Extra styling info for some Markdown engines (e.g. VSCode) -->
 <style>

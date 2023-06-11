@@ -46,13 +46,13 @@ To enable sprite collision detection, enable (set to 1) `bit 2 on 0x9F26 IEN (In
 ## IRQ (Interrupt Request)
 Sprite collisions make use of an IRQ or Interrupt Request. This is a low level processor event that is a bit beyond the scope of this document, but we have to understand a few things. An IRQ is a way for the processor to be "interrupted". When it happens, the processor will suddenly start executing code associated with the IRQ. When it is done, it will return back to where it was interrupted. It's usually used for hardware events but the 6502 can handle software events like a (BRK - Break).
 
-The code for wiring up a IRQ handler requires some assembly language. I'm going to wave the white flag on this one and just use the `set_irq` function that cc65 provides for us in `6502.h`. You can see the source assembly for it in [interrupt.s](https://github.com/cc65/cc65/blob/652949f183783198e398fa40d839c5fcc1f9c156/libsrc/common/interrupt.s) if you are interested.
+The code for wiring up an IRQ handler requires some assembly language. I'm going to wave the white flag on this one and just use the `set_irq` function that cc65 provides for us in `6502.h`. You can see the source assembly for it in [interrupt.s](https://github.com/cc65/cc65/blob/652949f183783198e398fa40d839c5fcc1f9c156/libsrc/common/interrupt.s) if you are interested.
 
 `set_irq` allows us to run a C function whenever the IRQ is fired. This is our clue that a collision has occurred. The only thing we need to do in this function is check `bit 2 in 0x9F27 ISR (Interrupt Source)` to see if it was fired because of a collision. If it was, we clear the interrupt by `setting that same bit = 1`, and returning a value of 1 (IRQ_HANDLED). Otherwise, we just return a value of 0 (IRQ_NOT_HANDLED), and the interrupt will be handled by some other code.
 
 > NOTE: Because the C function you create will be executed as an interrupt, you also have to provide some memory for it to use as a "stack". You are interrupting the normal "flow" of your code and you can't use the normal stack, so you will see that we create a small array to go along with the function.
 
-After the IRQ handler has run, the `0x9F27 ISR "Sprite collisions" bits 7-4 will hold details about the collision. We can then take action against the collision. Here is the basic code:
+After the IRQ handler has run, the `0x9F27 ISR "Sprite collisions" bits 7-4` will hold details about the collision. We can then take action against the collision. Here is the basic code:
 
 ```C
 #include "wait.h"
@@ -205,7 +205,7 @@ When these sprites collide, here are the results of the collision. No, means it 
 </table>
 
 ## Example
-Take a look at `collision.c` for an example of 2 sprites repeatedly colliding. `make collision` and `make runcollision` to build/run. It uses the IRQ code form above, and some of the sprite routines have been moved into their own functions so we can reuse them for each sprite. This is the kind of thing you will do in your games. Eventually you want to make some nice libraries that you can reuse across your other games.
+Take a look at `collision.c` for an example of 2 sprites repeatedly colliding. `make collision` and `make runcollision` to build/run. It uses the IRQ code from above, and some of the sprite routines have been moved into their own functions so we can reuse them for each sprite. This is the kind of thing you will do in your games. Eventually you want to make some nice libraries that you can reuse across your other games.
 
 <!-- Extra styling info for some Markdown engines (e.g. VSCode) -->
 <style>

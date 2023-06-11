@@ -9,3 +9,5 @@ Look at `anim.c`. You'll see 16 animation frames (images) being created in VRAM.
 ```C
 #define ANIMATION_SPEED 6 // Lower is faster
 ```
+
+`make anim` to build, `make runanim` to run it.

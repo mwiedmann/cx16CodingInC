@@ -15,7 +15,7 @@ According to the cc65 site:
 ```
 cc65 is a complete cross development package for 65(C)02 systems, including a powerful macro assembler, a C compiler, linker, librarian and several other tools.
 ```
-Essentially, cc65 allows you to write C code and "target" the compilation to a bunch of different 65(C)02 systems. cc65 understands some of the basics of these systems and "knows" how to compile your code in a format that can be run on these systems. It also includes most of the C standard library functions for use on these systems (stdio, stdlib, etc.) so you can use class C functions like `printf`.
+Essentially, cc65 allows you to write C code and "target" the compilation to a bunch of different 65(C)02 systems. cc65 understands some of the basics of these systems and "knows" how to compile your code in a format that can be run on these systems. It also includes most of the C standard library functions for use on these systems (stdio, stdlib, etc.) so you can use classic C functions like `printf`.
 
 ### Installing cc65
 Visit the [Source code and download page](https://github.com/cc65/cc65) and use one of the Downloads OR clone the repo and run `make`. I had to do the `make` method on my Mac and it worked no problem. I'm not an expert on this part so I will have to direct you elsewhere (CX16 forums or Discord, or just google search) if you run into issues.

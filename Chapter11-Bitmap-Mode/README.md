@@ -93,12 +93,19 @@ Take a look at `main-2-640.c` to see an example of a 2 bpp, 640x480 bitmap. I'm 
 - We enable 640 pixel width mode on the TileBase register
 - We don't need to adjust the `H-Scale / V-Scale` registers since we are displaying a "full resolution" 640x480 bitmap.
 
+`make 2640` to build it, `make run2640` to run it.
+
 ## 4 and 8 bpp Examples
 ### 320x240
 Take a look at `main-4-320.c` and `main-8-320.c` for 4 and 8 bpp bitmap examples. The 8 bpp mode gives us access to all 256 colors. The code displays 1 color per line so it only gets through 240 colors, but you'll see quite the rainbow. Build/run these to see some higher color bitmaps.
 
+- 4bpp - `make 4320` to build it, `make run4320` to run it.
+- 8bpp - `make 8320` to build it, `make run8320` to run it.
+
 ### 640x480
 As we learned earlier, there is not enough VRAM to display FULL 4/8 bpp bitmaps in 640x480 mode. `main-4-640.c` attempts to do it, but if you build/run it, you'll see that it makes it around 3/4 of the way through the image before you start seeing garbage.
+
+`make 4640` to build it, `make run4640` to run it.
 
 <style>
 table, th, td {

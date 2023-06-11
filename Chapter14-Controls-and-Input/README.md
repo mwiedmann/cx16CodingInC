@@ -129,7 +129,7 @@ asm("sta %v", mouseButtons);
 ## Mouse Pointer Graphic
 When you enable the mouse, the Kernal makes use of `Sprite 0` to hold the mouse pointer image. This means we can change it! If you want mouse support but don't want a visible pointer, you can change the image to be all transparent color. Otherwise, you can change the pointer to be whatever you want. By default the pointer is a 16x16 pixel image in 256 color (8 bpp) mode.
 
-In my tests, it seems to put the image at VRAM address `0x13000` but I'm not sure if this is fixed so I wouldn't rely on it. Instead, you can look at the first two bytes of Sprite 0 to see what the address is, then change the bytes at that address or point it to a new address where your new pointer image is located. Our example code get the address and modifies the pointer image so you can see how it is done.
+In my tests, it seems to put the image at VRAM address `0x13000` but I'm not sure if this is fixed so I wouldn't rely on it. Instead, you can look at the first two bytes of Sprite 0 to see what the address is, then change the bytes at that address or point it to a new address where your new pointer image is located. Our example code gets the address and modifies the pointer image so you can see how it is done.
 
 ## Mouse Example
 Look at `mouse.c` for an example of all of this. It does the following:
