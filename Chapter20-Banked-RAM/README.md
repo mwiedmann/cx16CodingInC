@@ -1,0 +1,25 @@
+# Banked RAM
+We briefly discussed this back in the CX16 Overview chapter, but now let's dive deeper into Banked RAM. By now you should be used to the indirection method we use to read/write VRAM using the VERA `address, address_hi, and data0` registers. We learned that the reason for this is that the CX16 has a 16 bit memory addressing scheme which only lets you access 64KB of RAM. With 128KB of VRAM, there is no way to access all of those addresses with just 16 bits. We have a similar problem with extended RAM, but its even worse. The CX16 can have up to 2MB of memory. Rather than using another indirection method, for extended memory the CX16 maps 8KB of extended RAM into the 16 bit address space which you can then use like regular RAM.
+
+The 512KB or 2MB of RAM is broken up into 8KB "banks". Only 1 bank can be active at a time. Putting a value in memory location `0x0` will select that as the "active" bank and map its 8KB of data to memory locations `0xA000-0xBFFF`. So you have this dance of selecting the bank you need, read/write to it, switch to another 8KB bank, work that that bank, repeat. With 512KB you have banks 1-63 to play with. With 2MB you have banks 1-255 (bank 0 is always reserved for kernal use). Bank switching adds some complexity to your code, BUT, some kernal/library and cc65 functions help you. For instance, there is a function to load data from a file into banked RAM that handles rolling to the next bank when the 8KB is used up. This allows you to load files much larger than 8KB and not have to write additional code.
+
+## Uses for Banked RAM
+There are a few reasons to use banked RAM.
+1. Hold sprite and tile image data and sound data - Your games may end up having lots of different sprites and tileset that are not always active. Meaning, you may have sprite images for your player that are only used when they have certain upgrades. There is no reason for them to eat up space in VRAM if you aren't using them, and you might not even have enough VRAM to do so. Instead, load them into Banked RAM and quickly copy them to VRAM when you need them. Same thing for your various tilesets (which can eat up A LOT of memory). The Kernal has a function to bulk copy memory this way that is nearly instant. This allows you to have tons of graphics available to your game without having it all in VRAM.
+2. Holding extended data - If you have some larger data structures for your game that don't need to stay in main RAM the entire time, put it in Banked RAM and swap it in when you need it. Perhaps your game has many levels, and each time the player exits a level you want to save the state of the level so when they return later you know what monsters are still alive, which piles of treasure were already picked up, etc. This can eat up a lot of memory if you have many of levels. Store it in Banked RAM and swap it in when you need to redraw that level. 
+3. Running Code - Since the 8KB banks are accessed as if they are just part of normal RAM, they can actually hold code. This allows your programs to be significantly larger than the 30KB or so size limit (it varies). Running code this way though does have some limitations, extra steps, and requires some extra help from cc65 if you are writing in C (thanks to CX16 forum user `Manannan` for how to do this!)
+
+## Helpful Functions Provided
+If you have a number of bytes you need to copy somewhere else in RAM, the CX16 has a Kernal Function for you. The Kernal docs detail [memory_copy](https://github.com/X16Community/x16-docs/blob/master/X16%20Reference%20-%2004%20-%20KERNAL.md#function-name-memory_copy). It copies a block of bytes from one memory location to another. It has special logic for copying data to VRAM. When using it to write to the `VERA.data0 0x9F23` register (or any VERA register), it knows to keep spamming the data into that register. This allows you to use it to copy the bytes to VRAM.
+
+The Kernal `LOAD $FFD5` function and `cbm_k_load` (which just calls the Kernal Function), will automatically roll to the next RAM Bank if you are loading a file into banked RAM and that Bank runs out of space. This allows you to load large files starting in a RAM Bank and it will span as many banks as it needs to load the file automatically. If you then later want to copy those bytes out of banked RAM into VRAM, you need to call the `memory_copy` function for each RAM Bank (it won't handle the automatic rollover for you).
+
+## Loading Tile Images Example
+In this example, we have 2 tile images (FLAME.BIN and SNOW.BIN). They are 16x16 pixel, 256 color tiles. We want to demonstrate loading these images to banked RAM and copying them to VRAM. We do the following:
+- Load each image into its own bank.
+- Fill the entire screen with tile index 0 (which starts as just random junk).
+- Inn a loop, use the `memory_copy` function to alternate between copying each one into VRAM. You will immediately see the screen fill with that tile.
+- There is a 1 second delay between each copy so you can see the new tiles for a moment.
+
+`make tiles` to build it. `make runtiles` to run it.
+
