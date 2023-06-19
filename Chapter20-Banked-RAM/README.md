@@ -59,11 +59,11 @@ You will now have your main code compiled into its usual program file, and any B
 2. When you want to call one of those functions:
     - Switch to the correct Bank
     - Call the function
-    - Optional: Switch back to the previous Bank. This is generally a good idea and but requires a few extra lines of code to store the current Bank before switching Banks, then restoring the original Bank after calling the function.
+    - Optional: Switch back to the previous Bank. This is generally a good idea but requires a few extra lines of code to store the current Bank before switching Banks, then restoring the original Bank after calling the function.
 
 ### Limitations
 - The current config only supports Banks 1-15 (more info coming on why). You will see it always spits out 15 files with the extensions `01-0f`. The ones with code will contain the compiled code and the rest will be empty. Use the ones you need and feel free to delete the rest. This still gives you 15 Banks of code storage though which is 120KB.
-- You can't call Banked code directly from another Bank. Meaning, if you are running a function in Bank 1, you can't DIRECTLY call a function in Bank 2. The call stack doesn't know how to handle this when it returns back to the original function. You have to use a "trampoline function" to do this. In `code.c` you will see an example of this. Inside `callBank1` (which runs from Bank 1), we call `foo` which is in "low" RAM. `foo` then calls `callBank2A` and `callBank2B` which runs on Bank 2. This is ok because we returns to "low" RAM before jumping to another Banked RAM function. You can create as many trampoline functions like this as you need.
+- You can't call Banked code directly from another Bank. Meaning, if you are running a function in Bank 1, you can't DIRECTLY call a function in Bank 2. The call stack doesn't know how to handle this when it returns back to the original function. You have to use a "trampoline function" to do this. In `code.c` you will see an example of this. Inside `callBank1` (which runs from Bank 1), we call `foo` which is in "low" RAM. `foo` then calls `callBank2A` and `callBank2B` which runs on Bank 2. This is ok because we return to "low" RAM before jumping to another Banked RAM function. You can create as many trampoline functions like this as you need.
 
 ### Banked Code Example
 Look at `code.c` for an example of all of this. `make code` to build it, `make runcode` to run it. You will see the 15 Banked code files created but we only use 2 of them.
