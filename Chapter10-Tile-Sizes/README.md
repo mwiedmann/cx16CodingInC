@@ -1,5 +1,5 @@
 # Tile Size
-So far we have been dealing with tiles that are 8x8 pixels (this is the default). The `TILEBASE` register lets us set a height and width for tiles our though.
+So far we have been dealing with tiles that are 8x8 pixels (this is the default). The `TILEBASE` register lets us set a height and width for our tiles though.
 
 <table>
 <thead>

@@ -27,9 +27,9 @@ Any editor that has basic C syntax support will be fine here. Choose your favori
 The CX16 emulator, docs, rom, and other software is all available on the X16Community github.
 - [Main Community Github](https://github.com/X16Community)
 - [Emulator](https://github.com/X16Community/x16-emulator)
-- [Latest Emulator Download (r42)](https://github.com/X16Community/x16-emulator/releases)
+- [Latest Emulator Download](https://github.com/X16Community/x16-emulator/releases)
 
-Download the r42 or r41 version of the emulator.
+Download the latest version of the emulator. This was created with r42 but it all seems fine with r43 and unless there are breaking changes it all should continue to work with newer versions of the emulator as they are released.
 
 ## Optional - Installing Make on Windows
 If you are on a Mac or Linux system, you should already have `make` installed. On windows you may need to install make. I'm going to pass the buck to Google on this should you need/want to install make. This is optional because you can also run the build command manually or in a .BAT file/shell script.

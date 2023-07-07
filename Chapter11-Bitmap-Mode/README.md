@@ -81,7 +81,7 @@ These registers will set the fractional scaling factor of the active part of the
 	</tr>
 </tbody></table>
 
-When we set the bitmap mode to 320 pixels, that just tells the hardware to draw into the first 320 pixels of each row. There are still 320 more pixels in each row on the screen though, so it just repeats the image. As the image is drawn further down the screen, it just keeps reading VRAM. Since we only drew a 320x240 image, it then picked up random bytes from VRAM after out image.
+When we set the bitmap mode to 320 pixels, that just tells the hardware to draw into the first 320 pixels of each row. There are still 320 more pixels in each row on the screen though, so it just repeats the image. As the image is drawn further down the screen, it just keeps reading VRAM. Since we only drew a 320x240 image, it then picked up random bytes from VRAM after our image.
 
 To fix this, we set the scale registers each to 64. That does a 2 to 1 ratio, meaning each of the pixels in our image will take up 2 vertical, and 2 horizontal pixels. So now our 320x240 image fills the screen.
 
